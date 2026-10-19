@@ -87,7 +87,7 @@ def translate(text, beam_width):
             bos_idx=bos,
             eos_idx=eos,
             device=device,
-            beam_width=beam_width,
+            beam_width=1,
         )
     elapsed = time.perf_counter() - start
 
