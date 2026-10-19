@@ -67,18 +67,23 @@ def load_model():
 # ----------------------------------------------------------------------------
 # Translation helper
 # ----------------------------------------------------------------------------
-def translate(text, beam_width):
+# ----------------------------------------------------------------------------
+# Translation helper (matching your working notebook)
+# ----------------------------------------------------------------------------
+def translate(text, beam_width=1):
     bos, eos, pad = sp.bos_id(), sp.eos_id(), sp.pad_id()
 
     src_ids = sp.encode_as_ids(text)
     truncated = len(src_ids) > MAX_SRC_TOKENS
     src_ids = src_ids[:MAX_SRC_TOKENS]
 
-    src_tensor = torch.tensor([bos] + src_ids + [eos]).unsqueeze(0).to(device)
+    src_encoded = [bos] + src_ids + [eos]
+    src_tensor = torch.tensor(src_encoded).unsqueeze(0).to(device)
     src_mask = make_pad_mask(src_tensor, pad).to(device)
 
     start = time.perf_counter()
     with torch.no_grad():
+        # Call it exactly like your working notebook without breaking parameters
         output_ids = beam_search_decode(
             model,
             src_tensor,
@@ -86,8 +91,7 @@ def translate(text, beam_width):
             max_len=MAX_OUT_LEN,
             bos_idx=bos,
             eos_idx=eos,
-            device=device,
-            beam_width=1,
+            device=device
         )
     elapsed = time.perf_counter() - start
 
@@ -97,14 +101,13 @@ def translate(text, beam_width):
     clean = [i for i in out_list if i not in (bos, eos, pad)]
 
     return {
-        "beam": beam_width,
+        "beam": 1,
         "translation": sp.decode_ids(clean),
         "src_tokens": len(src_ids),
         "out_tokens": len(clean),
         "seconds": elapsed,
         "truncated": truncated,
     }
-
 
 # ----------------------------------------------------------------------------
 # Session state
