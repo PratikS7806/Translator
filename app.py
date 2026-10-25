@@ -235,7 +235,7 @@ if run:
             else:
                 r = results[0]
                 with st.chat_message("assistant"):
-                    st.success(r["translation"] or "(empty output)")
+                    # st.success(r["translation"] or "(empty output)")
                     st.code(r["translation"], language=None)  # one-click copy
 
                 m1, m2, m3 = st.columns(3)
