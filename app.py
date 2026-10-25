@@ -157,7 +157,7 @@ with st.sidebar:
     """
     - **Encoder-decoder Transformer** built from scratch in PyTorch
     - **9.6M parameters**, 3 layers, 4 heads
-    - **8,000-token** shared BPE vocabulary
+    - **32,000-token** shared BPE vocabulary
     - Trained on **Multi30k + OPUS-100** conversational data
     - **sacreBLEU ~41.0** on the validation set
     - Running on **CPU**
